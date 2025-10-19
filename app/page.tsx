@@ -1,8 +1,19 @@
 import ProductCard from "./ProductCard";
 import { prisma } from "@/lib/prisma";
 
-export default async function HomePage() {
-  const products = await prisma.product.findMany();
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+export default async function HomePage(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
+
+  const page = Number(searchParams.page) || 1;
+  const pageSize = 3;
+  const skip = (page - 1) * pageSize;
+
+  const products = await prisma.product.findMany({
+    skip,
+    take: pageSize,
+  });
 
   return (
     <main className="container mx-auto p-4">
