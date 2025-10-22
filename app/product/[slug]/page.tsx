@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getProductsBySlug } from "@/lib/actions";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, sleep } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
 export default async function ProductPage({
@@ -11,12 +11,13 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-
   const product = await getProductsBySlug(slug);
 
   if (!product) {
     notFound();
   }
+
+  await sleep(1000);
 
   return (
     <main className="container mx-auto p-4">
