@@ -4,7 +4,7 @@ import { Search, ShoppingCart } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import MobileNav from "./mobile-nav";
 
-const categories = [
+export const categories = [
   {
     id: 1,
     name: "Electronics",
