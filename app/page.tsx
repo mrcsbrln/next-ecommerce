@@ -12,6 +12,7 @@ import { prisma } from "@/lib/prisma";
 import { Suspense } from "react";
 import ProductsSkeleton from "./ProductsSkeleton";
 import { sleep } from "@/lib/utils";
+import Breadcrumbs from "@/components/breadcrumbs";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -47,7 +48,7 @@ export default async function HomePage(props: { searchParams: SearchParams }) {
 
   return (
     <main className="container mx-auto py-4">
-      <h1 className="text-3xl font-bold mb-6">Home</h1>
+      <Breadcrumbs items={[{ label: "Products", href: "/" }]} />
 
       <Suspense key={page} fallback={<ProductsSkeleton />}>
         <Products page={page} />
