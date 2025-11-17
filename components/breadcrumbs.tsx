@@ -16,16 +16,19 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
     <Breadcrumb className="mb-6">
       <BreadcrumbList>
+        {/* Home */}
         <BreadcrumbItem>
           <BreadcrumbLink href="/">
             <Home className="h-4 w-4" />
           </BreadcrumbLink>
         </BreadcrumbItem>
 
+        {/* Items */}
         {items.map((item, index) => (
-          <React.Fragment key={index}>
+          <React.Fragment key={item.href ?? index}>
+            <BreadcrumbSeparator />
+
             <BreadcrumbItem>
-              <BreadcrumbSeparator />
               <BreadcrumbLink
                 href={item.href}
                 className={item.active ? "page" : ""}

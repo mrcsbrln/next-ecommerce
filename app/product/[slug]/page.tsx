@@ -64,9 +64,9 @@ export default async function ProductPage({
   await sleep(1000);
 
   return (
-    <main className="container mx-auto p-4">
+    <main className="container mx-auto py-4">
       <Breadcrumbs items={breadcrumbs} />
-      <Card className="max-w-3xl mx-auto">
+      <Card>
         <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="relative rounded-lg overflow-hidden h-[200px] md:h-[400px]">
             {product.image && (
