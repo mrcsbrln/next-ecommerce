@@ -9,17 +9,17 @@ export const categories = [
   {
     id: 1,
     name: "Electronics",
-    href: "/category/electronics",
+    href: "/search/electronics",
   },
   {
     id: 2,
-    name: "Fashion",
-    href: "/category/fashion",
+    name: "Clothing",
+    href: "/search/clothing",
   },
   {
     id: 3,
     name: "Home",
-    href: "/category/home",
+    href: "/search/home",
   },
 ];
 
@@ -60,18 +60,4 @@ export default function Navbar() {
       </div>
     </div>
   );
-}
-
-{
-  /* <ul>
-  <li>
-    <Link href="/">Home</Link>
-  </li>
-  <li>
-    <Link href="/products">Products</Link>
-  </li>
-  <li>
-    <ModeToggle />
-  </li>
-</ul>; */
 }
