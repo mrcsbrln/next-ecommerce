@@ -14,7 +14,7 @@ interface BreadcrumbsProps {
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
-    <Breadcrumb className="mb-6">
+    <Breadcrumb className="mb-6 h-8">
       <BreadcrumbList>
         {/* Home */}
         <BreadcrumbItem>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { Search, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import MobileNav from "./mobile-nav";
 import SearchInput from "./search-input";
@@ -45,7 +45,7 @@ export default function Navbar() {
           <MobileNav />
         </div>
 
-        <div className="hidden md:block w-full mx-4 md:mx-8">
+        <div className="block w-full mx-4 md:mx-8">
           <SearchInput />
         </div>
 
