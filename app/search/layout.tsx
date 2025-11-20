@@ -1,4 +1,5 @@
 import { CategorySideBar } from "@/components/category-sidebar";
+import { SortingControls } from "@/components/sorting-controls";
 import { prisma } from "@/lib/prisma";
 import { Suspense } from "react";
 
@@ -29,7 +30,9 @@ export default function SearchLayout({
           </Suspense>
         </div>
         <div className="flex-1">{children}</div>
-        <div className="w-[125px] flex-none">Sorting</div>
+        <div className="w-[125px] flex-none">
+          <SortingControls />
+        </div>
       </div>
     </main>
   );

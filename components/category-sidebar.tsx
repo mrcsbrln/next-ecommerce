@@ -13,6 +13,7 @@ type Props = {
 
 export function CategorySideBar({ categories }: Props) {
   const params = useParams();
+  const activeCategory = params.slug as string;
 
   return (
     <div className="w-[125px] flex-none">
@@ -23,7 +24,7 @@ export function CategorySideBar({ categories }: Props) {
             <Link
               href={`/search/${category.slug}`}
               className={`text-sm hover:text-primary ${
-                acticeCategory === category.slug ? "underline" : ""
+                activeCategory === category.slug ? "underline" : ""
               }`}
             >
               {category.name}

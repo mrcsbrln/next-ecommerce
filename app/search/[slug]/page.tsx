@@ -5,7 +5,6 @@ import { sleep } from "@/lib/utils";
 import { Suspense } from "react";
 import ProductsSkeleton from "@/app/ProductsSkeleton";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
@@ -83,11 +82,6 @@ export default async function CategoryPage({
     <>
       <Breadcrumbs items={breadcrumbs} />
 
-      <div className="flex gap-3 text-sm mb-8">
-        <Link href={`/search/${slug}`}>Latest</Link>
-        <Link href={`/search/${slug}?sort=price-asc`}>Price: Low to High</Link>
-        <Link href={`/search/${slug}?sort=price-desc`}>Price: High to Low</Link>
-      </div>
       <Suspense key={`${slug}-${sort}`} fallback={<ProductsSkeleton />}>
         <Products slug={slug} sort={sort} />
       </Suspense>
