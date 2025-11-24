@@ -1,9 +1,9 @@
 "use server";
 
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/app/generated/prisma";
 import { prisma } from "./prisma";
 
-interface GetProductsParams {
+export interface GetProductsParams {
   query?: string;
   slug?: string;
   sort?: string;
