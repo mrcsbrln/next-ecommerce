@@ -3,6 +3,8 @@ import { ModeToggle } from "./mode-toggle";
 import MobileNav from "./mobile-nav";
 import SearchInput from "./search-input";
 import CartIndicator from "./cart-indicator";
+import { Suspense } from "react";
+import CartIndicatorSkeleton from "./cart-indicator-skeleton";
 
 export const categories = [
   {
@@ -48,8 +50,10 @@ export default function Navbar() {
           <SearchInput />
         </div>
 
-        <div className="flex items-center gap-1">
-          <CartIndicator />
+        <div className="flex items-center gap-0">
+          <Suspense fallback={<CartIndicatorSkeleton />}>
+            <CartIndicator />
+          </Suspense>
           <ModeToggle />
         </div>
       </div>

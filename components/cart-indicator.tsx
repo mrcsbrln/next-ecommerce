@@ -2,10 +2,13 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
 import { getCart } from "@/lib/actions";
+import { sleep } from "@/lib/utils";
 
 export default async function CartIndicator() {
   const cart = await getCart();
   const cartSize = cart?.size ?? 0;
+
+  await sleep(1000); //Simulate loading time
 
   return (
     <Button variant="ghost" size="icon" asChild className="relative">
