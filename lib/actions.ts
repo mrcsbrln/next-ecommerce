@@ -96,6 +96,9 @@ async function findCartFromCookie(): Promise<CartWithProducts | null> {
         include: {
           items: {
             include: { product: true },
+            orderBy: {
+              createdAt: "desc",
+            },
           },
         },
       });
@@ -116,7 +119,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
     ...cart,
     size: cart.items.length,
     subtotal: cart.items.reduce(
-      (total, item) => total * item.product.price * item.quantity,
+      (total, item) => total + item.product.price * item.quantity,
       0
     ),
   };
