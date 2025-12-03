@@ -1,9 +1,12 @@
 import CartEntry from "@/components/cart-entry";
 import CartSummary from "@/components/cart-summary";
 import { getCart } from "@/lib/actions";
+import { sleep } from "@/lib/utils";
 
 export default async function CartPage() {
   const cart = await getCart();
+
+  await sleep(100); //Simulate loading time
 
   return (
     <main className="container mx-auto py-4">
