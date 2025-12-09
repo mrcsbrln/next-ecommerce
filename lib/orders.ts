@@ -5,12 +5,14 @@ import { getCart } from "./actions";
 import { prisma } from "./prisma";
 import { createCheckoutSession } from "./stripe";
 
-export async function createOrder() {
+export async function processCheckout() {
   const cart = await getCart();
 
   if (!cart || cart.items.length === 0) {
     throw new Error("Cart is empty");
   }
+
+  let orderId: string | null = null;
 
   try {
     const order = await prisma.$transaction(async (tx) => {
@@ -45,6 +47,8 @@ export async function createOrder() {
 
       return newOrder;
     });
+
+    orderId = order.id;
 
     // Reload full order
     const fullOrder = await prisma.order.findUnique({
@@ -85,6 +89,16 @@ export async function createOrder() {
     return order;
   } catch (error) {
     // optional: change the order status to failed
+    if (orderId && error instanceof Error && error.message.includes("Stripe")) {
+      await prisma.order.update({
+        where: {
+          id: orderId,
+        },
+        data: {
+          status: "failed",
+        },
+      });
+    }
     console.error("Error creating order:", error);
     throw new Error("Failed to create order");
   }
