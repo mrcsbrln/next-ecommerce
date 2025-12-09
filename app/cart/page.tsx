@@ -1,10 +1,26 @@
 import CartEntry from "@/components/cart-entry";
 import CartSummary from "@/components/cart-summary";
+import { Button } from "@/components/ui/button";
 import { getCart } from "@/lib/actions";
+import { processCheckout, ProcessCheckoutResponse } from "@/lib/orders";
 import { sleep } from "@/lib/utils";
+import { redirect } from "next/navigation";
 
 export default async function CartPage() {
   const cart = await getCart();
+
+  const handleCheckout = async () => {
+    "use server";
+    let result: ProcessCheckoutResponse | null = null;
+    try {
+      result = await processCheckout();
+    } catch (error) {
+      console.error("Checkout error:", error);
+    }
+    if (result) {
+      redirect(result.sessionUrl);
+    }
+  };
 
   await sleep(100); //Simulate loading time
 
@@ -23,6 +39,11 @@ export default async function CartPage() {
             ))}
           </div>
           <CartSummary />
+          <form action={handleCheckout}>
+            <Button size="lg" className="mt-4 w-full">
+              Proceed to Checkout
+            </Button>
+          </form>
         </>
       )}
     </main>
