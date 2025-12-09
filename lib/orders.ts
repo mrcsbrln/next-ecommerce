@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { getCart } from "./actions";
 import { prisma } from "./prisma";
+import { createCheckoutSession } from "./stripe";
 
 export async function createOrder() {
   const cart = await getCart();
@@ -45,19 +46,46 @@ export async function createOrder() {
       return newOrder;
     });
 
+    // Reload full order
+    const fullOrder = await prisma.order.findUnique({
+      where: {
+        id: order.id,
+      },
+      include: {
+        items: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
+    // Confirm the order was loaded
+    if (!fullOrder) {
+      throw new Error("Order not found");
+    }
+    // Create the stripe session
+    const { sessionId, sessionUrl } = await createCheckoutSession(fullOrder);
+    // Return the sessiion URL and handle the errors
+    if (!sessionId || !sessionUrl) {
+      throw new Error("Failed to create Stripe session");
+    }
+    // Store the session ID in the order & change the oder status
+    await prisma.order.update({
+      where: {
+        id: fullOrder.id,
+      },
+      data: {
+        stripeSessionId: sessionId,
+        status: "pending",
+      },
+    });
+
     (await cookies()).delete("cartId");
 
     return order;
   } catch (error) {
+    // optional: change the order status to failed
     console.error("Error creating order:", error);
     throw new Error("Failed to create order");
   }
-
-  //TODO
-  // 1. Calculate total price
-  // 2. Create order record
-  // 3. Create order item records
-  // 4. Clear cart
-  // 5. Revalidate cache
-  // 6. Return the order
 }
