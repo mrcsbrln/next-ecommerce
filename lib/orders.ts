@@ -85,7 +85,7 @@ export async function processCheckout(): Promise<ProcessCheckoutResponse> {
       },
       data: {
         stripeSessionId: sessionId,
-        status: "pending",
+        status: "pending_payment",
       },
     });
 
