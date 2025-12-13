@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
       notFound();
     }
 
-    if (order.status === "pending") {
+    if (order.status === "pending_payment") {
       await prisma.order.update({
         where: {
           id: order.id,
@@ -41,10 +41,9 @@ export async function GET(request: NextRequest) {
         },
       });
     }
+    return redirect("/");
   } catch (error) {
     console.error("Error retrieving Stripe session:", error);
     notFound();
   }
-
-  return redirect("/");
 }
