@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { OrderWithItemsAndProduct } from "@/lib/stripe";
 import { formatPrice } from "@/lib/utils";
+import { CheckCircle, Clock, CreditCard, AlertCircle } from "lucide-react";
 
 interface OrderSummaryProps {
   order: OrderWithItemsAndProduct;
@@ -18,6 +19,46 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default async function OrderSummary({ order }: OrderSummaryProps) {
+  const getStatusDetails = (status: string) => {
+    switch (status) {
+      case "paid":
+        return {
+          label: "Paid",
+          variant: "default" as const,
+          icon: <CheckCircle className="w-4 h-4" />,
+        };
+      case "pending":
+        return {
+          label: "Pending",
+          variant: "secondary" as const,
+          icon: <Clock className="w-4 h-4" />,
+        };
+      case "pending_payment":
+        return {
+          label: "Payment Pending",
+          variant: "outline" as const,
+          icon: <CreditCard className="w-4 h-4" />,
+        };
+      case "failed":
+        return {
+          label: "Failed",
+          variant: "destructive" as const,
+          icon: <AlertCircle className="w-4 h-4" />,
+        };
+      case "payment_processed":
+        return {
+          label: "Payment Processed",
+          variant: "outline" as const,
+          icon: <CreditCard className="w-4 h-4" />,
+        };
+      default:
+        return {
+          label: status,
+          variant: "secondary" as const,
+          icon: <Clock className="w-4 h-4" />,
+        };
+    }
+  };
   return (
     <div className="flex flex-col pt-4">
       <div className="text-sm text-muted-foreground">

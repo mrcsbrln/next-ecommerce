@@ -11,9 +11,11 @@ export async function GET(request: NextRequest) {
     notFound();
   }
 
+  let orderId: string | undefined;
+
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId);
-    const orderId = session.metadata?.orderId;
+    orderId = session.metadata?.orderId;
 
     if (!orderId) {
       notFound();
@@ -37,13 +39,12 @@ export async function GET(request: NextRequest) {
         },
         data: {
           status: "payment_processed",
-          stripeSessionId: null,
         },
       });
     }
-    return redirect("/");
   } catch (error) {
     console.error("Error retrieving Stripe session:", error);
     notFound();
   }
+  return orderId ? redirect(`/order/${orderId}`) : notFound();
 }
