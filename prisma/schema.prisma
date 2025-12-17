@@ -16,10 +16,10 @@ model Product {
   image       String?
   price       Float
   slug        String      @unique
-  category    Category    @relation(fields: [categoryId], references: [id])
   inventory   Int         @default(0)
   cartItems   CartItem[]
   orderItems  OrderItem[]
+  category    Category    @relation(fields: [categoryId], references: [id])
 }
 
 model Category {
@@ -30,21 +30,21 @@ model Category {
 }
 
 model Cart {
-  id        String      @id @default(cuid())
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   items     CartItem[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
 }
 
 model CartItem {
-  id        String    @id @default(cuid())
-  cart      Cart      @relation(fields: [cartId], references: [id])
+  id        String   @id @default(cuid())
   cartId    String
-  product   Product   @relation(fields: [productId], references: [id])
   productId String
-  quantity  Int       @default(1)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
 
   @@unique([cartId, productId])
   @@index([cartId])
@@ -52,37 +52,37 @@ model CartItem {
 }
 
 model Order {
-  id  String @id @default(cuid())
-  total Float 
-  status String @default("pending")
-  items OrderItem[]
-  stripeSessionId String?
+  id                    String      @id @default(cuid())
+  total                 Float
+  status                String      @default("pending")
+  stripeSessionId       String?
   stripePaymentIntentId String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  items                 OrderItem[]
 }
 
 model OrderItem {
-  id String @id @default(cuid())
-  order Order @relation(fields: [orderId], references: [id])
-  orderId String
-  product Product @relation(fields: [productId], references: [id])
+  id        String   @id @default(cuid())
+  orderId   String
   productId String
-  quantity Int @default(1)
-  price Float
+  quantity  Int      @default(1)
+  price     Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
 
   @@index([orderId])
   @@index([productId])
 }
 
 model User {
-  id String @id @default(cuid())
-  email String @unique
-  password String
-  name String?
-  role String @default("user")
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("user")
   createdAt DateTime @default(now())
-  updatetAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
