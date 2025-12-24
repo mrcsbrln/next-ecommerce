@@ -9,9 +9,9 @@ export const LoginSchema = z.object({
   }),
 });
 
-LoginSchema.parse({
-  email: "test@test.com",
-  password: "test",
-});
+// LoginSchema.parse({
+//   email: "test@test.com",
+//   password: "test",
+// });
 
 export type LoginSchemaType = z.infer<typeof LoginSchema>;
