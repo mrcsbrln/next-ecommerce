@@ -14,4 +14,4 @@ LoginSchema.parse({
   password: "test",
 });
 
-type LoginSchemaType = z.infer<typeof LoginSchema>;
+export type LoginSchemaType = z.infer<typeof LoginSchema>;
