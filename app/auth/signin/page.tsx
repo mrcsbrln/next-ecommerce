@@ -20,11 +20,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
+  const { data: session, update: updateSession } = useSession();
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -32,6 +34,8 @@ export default function SignInPage() {
       password: "",
     },
   });
+
+  const router = useRouter();
 
   const onSubmit = async (data: LoginSchemaType) => {
     setError(null);
@@ -48,6 +52,9 @@ export default function SignInPage() {
         } else {
           setError("An error occurred while signin in");
         }
+      } else {
+        await updateSession();
+        router.push("/");
       }
     } catch (error) {
       console.error("Sign in error", error);
@@ -103,7 +110,10 @@ export default function SignInPage() {
                     <FormMessage />
                   </FormItem>
                 )}
-              ></FormField>
+              />
+
+              {session?.user && <pre>{JSON.stringify(session, null, 2)}</pre>}
+
               <Button type="submit" className="w-full">
                 Sign In
               </Button>

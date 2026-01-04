@@ -1,8 +1,37 @@
 import bcrypt from "bcryptjs";
-import NextAuth from "next-auth";
+import NextAuth, { User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { LoginSchema } from "./schemas";
 import { prisma } from "./prisma";
+import { JWT } from "next-auth/jwt";
+
+declare module "next-auth" {
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  }
+
+  interface Session {
+    user: {
+      id: string;
+      email: string;
+      name: string | null;
+      role: string;
+    };
+    refreshedAt?: string;
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -13,6 +42,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         const parsedCredentials = LoginSchema.safeParse(credentials);
+
         if (!parsedCredentials.success) {
           console.log("Invalid credentials format");
           return null;
@@ -43,6 +73,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }: { token: JWT; user: User }) {
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+      }
+      return token;
+    },
+  },
   pages: {
     signIn: "/auth/signin",
   },
