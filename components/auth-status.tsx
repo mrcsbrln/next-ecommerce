@@ -4,10 +4,18 @@ import { signOut, useSession } from "next-auth/react";
 import { Skeleton } from "./ui/skeleton";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { LogIn, LogOut } from "lucide-react";
+import { LogIn, User } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 export default function AuthStatus() {
-  const { status } = useSession();
+  const { status, data: session } = useSession();
 
   if (status === "loading") {
     return <Skeleton className="w-9 h-9" />;
@@ -24,8 +32,17 @@ export default function AuthStatus() {
   }
 
   return (
-    <Button variant="ghost" size="icon" onClick={() => signOut()}>
-      <LogOut className="h-5 w-5" />
-    </Button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <User className="h-5 w-5" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>{session?.user.name}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => signOut()}>Sign out</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
