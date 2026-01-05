@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
-  const { data: session, update: updateSession } = useSession();
+  const { update: updateSession } = useSession();
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -111,9 +111,6 @@ export default function SignInPage() {
                   </FormItem>
                 )}
               />
-
-              {session?.user && <pre>{JSON.stringify(session, null, 2)}</pre>}
-
               <Button type="submit" className="w-full">
                 Sign In
               </Button>
