@@ -15,3 +15,25 @@ export const LoginSchema = z.object({
 // });
 
 export type LoginSchemaType = z.infer<typeof LoginSchema>;
+
+export const RegisterSchema = z
+  .object({
+    name: z.string().min(2, {
+      message: "Name must be at least",
+    }),
+    email: z.email({
+      message: "Please enter a valid email address",
+    }),
+    password: z.string().min(8, {
+      message: "Password must be at least 8 charactes long",
+    }),
+    confirmPassword: z.string().min(8, {
+      message: "Password must be at least 8 charactes long",
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPasswords"],
+  });
+
+export type RegisterSchemaType = z.infer<typeof RegisterSchema>;

@@ -8,7 +8,7 @@ import { JWT } from "next-auth/jwt";
 declare module "next-auth" {
   interface User {
     id: string;
-    name: string;
+    name: string | null;
     email: string;
     role: string;
   }
@@ -65,7 +65,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             console.log("Password does not match");
             return null;
           }
-          return user;
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+          };
         } catch (error) {
           console.error("Error finding user:", error);
           return null;
