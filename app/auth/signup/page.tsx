@@ -20,8 +20,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useState } from "react";
+import { registerUser } from "@/lib/actions/auth";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -33,7 +39,23 @@ export default function SignUpPage() {
   });
 
   const onSubmit = async (data: RegisterSchemaType) => {
-    console.log(data);
+    setError(null);
+    form.clearErrors();
+
+    try {
+      const result = await registerUser(data);
+
+      if (!result.success) {
+        setError(
+          result.error || "An error occurred while creating your account"
+        );
+        return;
+      }
+
+      router.push("/auth/signin");
+    } catch (error) {
+      console.error("Registration Error:", error);
+    }
   };
 
   return (
@@ -52,6 +74,7 @@ export default function SignUpPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
@@ -114,7 +137,11 @@ export default function SignUpPage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+              >
                 Sign Up
               </Button>
             </form>
