@@ -1,4 +1,5 @@
 import Breadcrumbs from "@/components/breadcrumbs";
+import OrderStatusBadge from "@/components/order-status-badge";
 import {
   Table,
   TableBody,
@@ -9,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -62,8 +64,10 @@ export default async function AccountOrdersPage() {
             <TableRow key={order.id}>
               <TableCell>{order.id.slice(0, 8)}...</TableCell>
               <TableCell>{order.createdAt.toLocaleDateString()}</TableCell>
-              <TableCell>{order.total}</TableCell>
-              <TableCell>{order.status}</TableCell>
+              <TableCell>{formatPrice(order.total)}</TableCell>
+              <TableCell>
+                <OrderStatusBadge status={order.status} />
+              </TableCell>
               <TableCell>
                 <Link className="underline" href={`/order/${order.id}`}>
                   View
