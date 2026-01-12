@@ -17,9 +17,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "E-Commerce Store",
+  title: {
+    default: "E-Commerce Store",
+    template: "%s | E-Commerce Store",
+  },
   description:
     "A simple e-commerce Store built with Next.js, ShadcnUI, Tailwind and Prisma",
+  openGraph: {
+    title: "E-Commerce Store",
+    description:
+      "A simple e-commerce Store built with Next.js, ShadcnUI, Tailwind and Prisma",
+    url: process.env.NEXT_PUBLIC_APP_URL,
+    siteName: "E-Commerce Store",
+  },
 };
 
 export default function RootLayout({
