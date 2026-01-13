@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getProductsBySlug } from "@/lib/actions";
-import { formatPrice, sleep } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -73,8 +73,6 @@ export default async function ProductPage({
       active: true,
     },
   ];
-
-  await sleep(1000);
 
   return (
     <main className="container mx-auto py-4">

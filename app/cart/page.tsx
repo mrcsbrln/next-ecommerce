@@ -3,7 +3,6 @@ import CartSummary from "@/components/cart-summary";
 import { Button } from "@/components/ui/button";
 import { getCart } from "@/lib/actions";
 import { processCheckout, ProcessCheckoutResponse } from "@/lib/orders";
-import { sleep } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
 export default async function CartPage() {
@@ -21,8 +20,6 @@ export default async function CartPage() {
       redirect(result.sessionUrl);
     }
   };
-
-  await sleep(100); //Simulate loading time
 
   return (
     <main className="container mx-auto py-4">
