@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getProductsBySlug } from "@/lib/actions";
+import { prisma } from "@/lib/prisma";
 import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -35,6 +36,19 @@ export async function generateMetadata({
   };
 }
 
+export const revalidate = 15;
+
+export async function generateStaticParams() {
+  const products = await prisma.product.findMany({
+    select: {
+      slug: true,
+    },
+  });
+  return products.map((product) => ({
+    slug: product.slug,
+  }));
+}
+
 export default async function ProductPage({
   params,
 }: {
@@ -42,6 +56,8 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
   const product = await getProductsBySlug(slug);
+
+  console.log(`Fetching product ${slug}`);
 
   if (!product) {
     notFound();

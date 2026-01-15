@@ -2,9 +2,9 @@ import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
 import MobileNav from "./mobile-nav";
 import SearchInput from "./search-input";
-import CartIndicator from "./cart-indicator";
-import { Suspense } from "react";
-import CartIndicatorSkeleton from "./cart-indicator-skeleton";
+// import CartIndicator from "./cart-indicator";
+// import { Suspense } from "react";
+// import CartIndicatorSkeleton from "./cart-indicator-skeleton";
 import AuthStatus from "./auth-status";
 
 export const categories = [
@@ -53,9 +53,9 @@ export default function Navbar() {
 
         <div className="flex items-center gap-0">
           <AuthStatus />
-          <Suspense fallback={<CartIndicatorSkeleton />}>
+          {/* <Suspense fallback={<CartIndicatorSkeleton />}>
             <CartIndicator />
-          </Suspense>
+          </Suspense> */}
           <ModeToggle />
         </div>
       </div>
