@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { Minus, Plus, X } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "@/lib/use-cart";
 
 interface CartEntryProps {
   cartItem: cartItemWithProduct;
@@ -12,11 +13,13 @@ interface CartEntryProps {
 
 export default function CartEntry({ cartItem }: CartEntryProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const { revalidateCart } = useCart();
 
   const handleSetProductQuantity = async (quantity: number) => {
     setIsLoading(true);
     try {
       await setProductQuantity(cartItem.product.id, quantity);
+      revalidateCart();
     } catch (error) {
       console.error("Error changing cart item quantity:", error);
     } finally {

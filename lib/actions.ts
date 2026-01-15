@@ -157,7 +157,7 @@ export async function addToCart(productId: string, quantity: number = 1) {
   if (existingItem) {
     await prisma.cartItem.update({
       where: { id: existingItem.id },
-      data: { quantity: existingItem.quantity * quantity },
+      data: { quantity: existingItem.quantity + quantity },
     });
   } else {
     await prisma.cartItem.create({
