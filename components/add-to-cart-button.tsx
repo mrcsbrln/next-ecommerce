@@ -22,6 +22,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
       setIsAdding(false);
     }
   };
+
   return (
     <Button
       onClick={handleAddToCart}

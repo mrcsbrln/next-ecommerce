@@ -1,7 +1,15 @@
-import { PrismaClient, Product, User } from "@/app/generated/prisma";
+import { PrismaClient, Product, User } from "@prisma/client"; // Pfad korrigiert
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
+import "dotenv/config";
 import { hashPassword } from "@/lib/auth";
 
-const prisma = new PrismaClient();
+const connectionString = process.env.DATABASE_URL;
+const pool = new Pool({ connectionString });
+
+const adapter = new PrismaPg(pool);
+
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   await prisma.product.deleteMany();
