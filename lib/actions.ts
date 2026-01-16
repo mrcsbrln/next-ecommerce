@@ -153,17 +153,14 @@ export async function addToCart(productId: string, quantity: number = 1) {
 
   const cart = await getOrCreateCart();
 
-  // Verwende upsert für eine atomare Operation auf DB-Ebene
   await prisma.cartItem.upsert({
     where: {
-      // Prisma generiert diesen Namen automatisch aus deinem @@unique([cartId, productId])
       cartId_productId: {
         cartId: cart.id,
         productId: productId,
       },
     },
     update: {
-      // Erhöht die existierende Menge atomar
       quantity: { increment: quantity },
     },
     create: {
@@ -173,8 +170,7 @@ export async function addToCart(productId: string, quantity: number = 1) {
     },
   });
 
-  // Cache validieren, damit die UI den neuen Stand sieht
-  revalidateTag(`cart-${cart.id}`, "max");
+  revalidateTag(`cart-${cart.id}`, { expire: 0 });
 }
 
 export async function setProductQuantity(productId: string, quantity: number) {
@@ -209,7 +205,7 @@ export async function setProductQuantity(productId: string, quantity: number) {
         },
       });
     }
-    revalidateTag(`cart-${cart.id}`, "max");
+    revalidateTag(`cart-${cart.id}`, { expire: 0 });
   } catch (error) {
     console.error("Error updating cart item quantity:", error);
     throw new Error("Failed to update cart item quantity");
