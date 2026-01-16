@@ -150,20 +150,30 @@ export async function addToCart(productId: string, quantity: number = 1) {
   if (quantity < 1) {
     throw new Error("Quantity must be at least 1");
   }
+
   const cart = await getOrCreateCart();
 
-  const existingItem = cart.items.find((item) => item.productId === productId);
+  // Verwende upsert für eine atomare Operation auf DB-Ebene
+  await prisma.cartItem.upsert({
+    where: {
+      // Prisma generiert diesen Namen automatisch aus deinem @@unique([cartId, productId])
+      cartId_productId: {
+        cartId: cart.id,
+        productId: productId,
+      },
+    },
+    update: {
+      // Erhöht die existierende Menge atomar
+      quantity: { increment: quantity },
+    },
+    create: {
+      cartId: cart.id,
+      productId: productId,
+      quantity: quantity,
+    },
+  });
 
-  if (existingItem) {
-    await prisma.cartItem.update({
-      where: { id: existingItem.id },
-      data: { quantity: existingItem.quantity + quantity },
-    });
-  } else {
-    await prisma.cartItem.create({
-      data: { cartId: cart.id, productId, quantity },
-    });
-  }
+  // Cache validieren, damit die UI den neuen Stand sieht
   revalidateTag(`cart-${cart.id}`, "max");
 }
 
