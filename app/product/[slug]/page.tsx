@@ -36,7 +36,7 @@ export async function generateMetadata({
   };
 }
 
-export const revalidate = 15;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const products = await prisma.product.findMany({
@@ -56,8 +56,6 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
   const product = await getProductsBySlug(slug);
-
-  console.log(`Fetching product ${slug}`);
 
   if (!product) {
     notFound();
