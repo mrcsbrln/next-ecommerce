@@ -1,7 +1,7 @@
 export function createProductsCacheKey(params: {
   categorySlug?: string;
   search?: string;
-  page?: string;
+  page?: number;
   limit?: number;
   sort?: string;
 }) {
@@ -31,7 +31,7 @@ export function createProductsCacheKey(params: {
   return keyParts.join(":");
 }
 
-export function createProductsTagKey(params: {
+export function createProductsTags(params: {
   categorySlug?: string;
   search?: string;
 }) {
