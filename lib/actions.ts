@@ -212,8 +212,6 @@ export async function setProductQuantity(productId: string, quantity: number) {
     throw new Error("Cart not found");
   }
 
-  // TODO: Make sure the product inventory is not exceeded
-
   try {
     if (quantity === 0) {
       await prisma.cartItem.deleteMany({
@@ -243,5 +241,19 @@ export async function setProductQuantity(productId: string, quantity: number) {
 export async function getProductsCountCached() {
   return unstable_cache(() => prisma.product.count(), ["products-count"], {
     tags: ["products"],
+  })();
+}
+
+export async function getCategoryBySlug(slug: string) {
+  return await prisma.category.findUnique({
+    where: { slug },
+    select: { name: true, slug: true },
+  });
+}
+
+export async function getCategoryBySlugCached(slug: string) {
+  return unstable_cache(() => getCategoryBySlug(slug), [`category-${slug}`], {
+    tags: [`category-${slug}`],
+    revalidate: 3600,
   })();
 }
