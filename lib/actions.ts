@@ -239,3 +239,9 @@ export async function setProductQuantity(productId: string, quantity: number) {
     throw new Error("Failed to update cart item quantity");
   }
 }
+
+export async function getProductsCountCached() {
+  return unstable_cache(() => prisma.product.count(), ["products-count"], {
+    tags: ["products"],
+  })();
+}
