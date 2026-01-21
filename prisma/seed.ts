@@ -1,4 +1,4 @@
-import { PrismaClient, Product, User } from "@prisma/client"; // Pfad korrigiert
+import { PrismaClient, Product, User } from "../app/generated/prisma/client"; 
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 import "dotenv/config";

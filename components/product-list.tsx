@@ -1,6 +1,6 @@
 "use-client";
 
-import { Product } from "@/app/generated/prisma";
+import { Product } from "@/app/generated/prisma/client";
 import ProductCard from "@/app/ProductCard";
 
 type ProductListProps = {

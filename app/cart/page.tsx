@@ -1,7 +1,7 @@
 import CartEntry from "@/components/cart-entry";
 import CartSummary from "@/components/cart-summary";
 import { Button } from "@/components/ui/button";
-import { getCart } from "@/lib/actions";
+import { getCart, cartItemWithProduct } from "@/lib/actions";
 import { processCheckout, ProcessCheckoutResponse } from "@/lib/orders";
 import { redirect } from "next/navigation";
 
@@ -31,7 +31,7 @@ export default async function CartPage() {
       ) : (
         <>
           <div className="flex flex-col">
-            {cart.items.map((item) => (
+            {cart.items.map((item: cartItemWithProduct) => (
               <CartEntry key={item.id} cartItem={item} />
             ))}
           </div>

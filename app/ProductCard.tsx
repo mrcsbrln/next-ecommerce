@@ -1,6 +1,6 @@
 import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
-import { Product } from "./generated/prisma";
+import { Product } from "./generated/prisma/client";
 import {
   Card,
   CardDescription,
