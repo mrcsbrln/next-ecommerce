@@ -19,7 +19,7 @@ export async function getProducts({
   slug,
   sort,
   page = 1,
-  pageSize = 3,
+  pageSize = 6,
 }: GetProductsParams) {
   const where: Prisma.ProductWhereInput = {};
 
@@ -60,7 +60,7 @@ export async function getProductsCached({
   slug,
   sort,
   page = 1,
-  pageSize = 3,
+  pageSize = 6,
 }: GetProductsParams) {
   const cacheKey = createProductsCacheKey({
     search: query,
@@ -78,7 +78,7 @@ export async function getProductsCached({
     {
       tags: cacheTags,
       revalidate: 3600,
-    }
+    },
   )();
 }
 
@@ -132,7 +132,7 @@ async function findCartFromCookie(): Promise<CartWithProducts | null> {
       });
     },
     [`cart-${cartId}`],
-    { tags: [`cart-${cartId}`], revalidate: 3600 }
+    { tags: [`cart-${cartId}`], revalidate: 3600 },
   )(cartId);
 }
 
@@ -148,7 +148,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
     size: cart.items.length,
     subtotal: cart.items.reduce(
       (total, item) => total + item.product.price * item.quantity,
-      0
+      0,
     ),
   };
 }

@@ -15,7 +15,7 @@ import { getProductsCountCached } from "@/lib/actions";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-const pageSize = 3;
+const pageSize = 6;
 
 export default async function HomePage(props: { searchParams: SearchParams }) {
   const searchParams = await props.searchParams;

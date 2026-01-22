@@ -1,4 +1,4 @@
-import { PrismaClient, Product, User } from "../app/generated/prisma/client"; 
+import { PrismaClient, Product, User } from "../app/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 import "dotenv/config";
@@ -38,13 +38,15 @@ async function main() {
   });
 
   const products: Product[] = [
+    // --- ELECTRONICS ---
     {
       id: "1",
       name: "Wireless Headphones",
       description:
         "Premium noise-cancelling wireless headphones with long battery life.",
       price: 199.99,
-      image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+      image:
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000",
       categoryId: electronics.id,
       slug: "wireless-headphones",
       inventory: 15,
@@ -55,90 +57,131 @@ async function main() {
       description:
         "Fitness tracker with heart rate monitoring and sleep analysis.",
       price: 149.99,
-      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+      image:
+        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000",
       categoryId: electronics.id,
       slug: "smart-watch",
       inventory: 10,
     },
     {
+      id: "6",
+      name: "Mechanical Keyboard",
+      description:
+        "RGB backlit mechanical keyboard with tactile switches for gaming and coding.",
+      price: 49.5,
+      image:
+        "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?q=80&w=1000",
+      categoryId: electronics.id,
+      slug: "mechanical-keyboard",
+      inventory: 8,
+    },
+    {
+      id: "7",
+      name: "Portable Bluetooth Speaker",
+      description:
+        "Waterproof speaker with 360-degree sound and 20-hour battery life.",
+      price: 59.99,
+      image:
+        "https://images.unsplash.com/photo-1643385958950-8f0b8852171a?q=80&w=1000",
+      categoryId: electronics.id,
+      slug: "bluetooth-speaker",
+      inventory: 25,
+    },
+
+    // --- CLOTHING ---
+    {
       id: "3",
       name: "Running Shoes",
       description: "Lightweight running shoes with responsive cushioning.",
       price: 89.99,
-      image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+      image:
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000",
       categoryId: clothing.id,
       slug: "running-shoes",
       inventory: 3,
-    },
-    {
-      id: "4",
-      name: "Ceramic Mug",
-      description: "Handcrafted ceramic mug with minimalist design.",
-      price: 24.99,
-      image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d",
-      categoryId: home.id,
-      slug: "ceramic-mug",
-      inventory: 0,
     },
     {
       id: "5",
       name: "Leather Backpack",
       description: "Durable leather backpack with multiple compartments.",
       price: 79.99,
-      image: "https://images.unsplash.com/photo-1491637639811-60e2756cc1c7",
+      image:
+        "https://images.unsplash.com/photo-1491637639811-60e2756cc1c7?q=80&w=1000",
       categoryId: clothing.id,
       slug: "leather-backpack",
       inventory: 1,
     },
     {
-      id: "6",
-      name: "Gaming Mouse",
-      description: "High-precision gaming mouse with customizable RGB lighting.",
-      price: 59.99,
-      image: "https://images.unsplash.com/photo-1547038577-da48bc6a3480",
-      categoryId: electronics.id,
-      slug: "gaming-mouse",
-      inventory: 20,
-    },
-    {
-      id: "7",
-      name: "Denim Jacket",
-      description: "Classic denim jacket for all seasons.",
-      price: 69.99,
-      image: "https://images.unsplash.com/photo-1588628084042-e14b2d18b2b9",
-      categoryId: clothing.id,
-      slug: "denim-jacket",
-      inventory: 8,
-    },
-    {
       id: "8",
-      name: "Smart LED Bulb",
-      description: "App-controlled LED bulb with millions of colors.",
-      price: 19.99,
-      image: "https://images.unsplash.com/photo-1596207019777-a8a5b3a3b4e7",
-      categoryId: home.id,
-      slug: "smart-led-bulb",
-      inventory: 30,
-    },
-    {
-      id: "9",
-      name: "Portable Speaker",
-      description: "Compact Bluetooth speaker with powerful sound and long battery life.",
-      price: 129.99,
-      image: "https://images.unsplash.com/photo-1545465902-861f6004942c",
-      categoryId: electronics.id,
-      slug: "portable-speaker",
+      name: "Cotton Hoodie",
+      description:
+        "Comfortable oversized hoodie made from 100% organic cotton.",
+      price: 45.0,
+      image:
+        "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1000",
+      categoryId: clothing.id,
+      slug: "cotton-hoodie",
       inventory: 12,
     },
     {
-      id: "10",
-      name: "Yoga Mat",
-      description: "Eco-friendly yoga mat for comfortable workouts.",
-      price: 29.99,
-      image: "https://images.unsplash.com/photo-1570776092790-256d9812e987",
+      id: "9",
+      name: "Jeans Trousers",
+      description: "Classic blue denim jacket with a vintage wash.",
+      price: 110.0,
+      image:
+        "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?q=80&w=1000",
+      categoryId: clothing.id,
+      slug: "denim-jacket",
+      inventory: 5,
+    },
+
+    // --- HOME ---
+    {
+      id: "4",
+      name: "Ceramic Mug",
+      description: "Handcrafted ceramic mug with minimalist design.",
+      price: 24.99,
+      image:
+        "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?q=80&w=1000",
       categoryId: home.id,
-      slug: "yoga-mat",
-      inventory: 25,
+      slug: "ceramic-mug",
+      inventory: 0,
+    },
+    {
+      id: "10",
+      name: "Minimalist Table Lamp",
+      description:
+        "Elegant desk lamp with adjustable brightness and warm light.",
+      price: 64.99,
+      image:
+        "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=1000",
+      categoryId: home.id,
+      slug: "table-lamp",
+      inventory: 7,
+    },
+    {
+      id: "11",
+      name: "Scented Candle Set",
+      description:
+        "Set of 3 soy wax candles with lavender, sandalwood, and citrus scents.",
+      price: 32.0,
+      image:
+        "https://images.unsplash.com/photo-1619695662870-32c1e1c91142?q=80&w=1000",
+      categoryId: home.id,
+      slug: "scented-candles",
+      inventory: 20,
+    },
+    {
+      id: "12",
+      name: "Indoor Plant Pot",
+      description:
+        "Modern terracotta pot perfect for succulents or small indoor plants.",
+      price: 18.5,
+      image:
+        "https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=1000",
+      categoryId: home.id,
+      slug: "plant-pot",
+      inventory: 14,
     },
   ];
 
@@ -160,8 +203,8 @@ async function main() {
     },
     {
       id: "2",
-      email: "user@example.com",
-      password: "password456",
+      email: "test@example.com",
+      password: "test",
       name: "Regular User",
       role: "user",
       createdAt: new Date(),
