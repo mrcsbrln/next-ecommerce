@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js E-commerce
+
+This is a full-stack e-commerce application built with Next.js, TypeScript, and a range of modern technologies. It includes features like product browsing, a shopping cart, user authentication, and Stripe integration for payments.
+
+## Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Database:** [PostgreSQL](https://www.postgresql.org/)
+- **ORM:** [Prisma](https://www.prisma.io/)
+- **Authentication:** [NextAuth.js](https://next-auth.js.org/)
+- **Payments:** [Stripe](https://stripe.com/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components:** [Radix UI](https://www.radix-ui.com/) & custom components
+- **Forms:** [React Hook Form](https://react-hook-form.com/)
+- **Validation:** [Zod](https://zod.dev/)
+- **Linting:** [ESLint](https://eslint.org/)
 
 ## Getting Started
 
-First, run the development server:
+Follow these instructions to set up and run the project locally.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Node.js](https://nodejs.org/) (v20 or later)
+- [pnpm](https://pnpm.io/installation)
+- [Docker](https://www.docker.com/get-started) (for running the database)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1.  **Clone the repository:**
 
-## Learn More
+    ```bash
+    git clone https://github.com/mrcsbrln/next-ecommerce.git
+    cd next-ecommerce
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Install dependencies:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```bash
+    pnpm install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3.  **Set up environment variables:**
 
-## Deploy on Vercel
+    Create a `.env.local` file by copying the example file:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    cp .env.example .env.local
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    Update the `.env.local` file with your credentials for the database, Stripe, and NextAuth.js.
+
+4.  **Run the database:**
+
+    Start the PostgreSQL database using Docker:
+
+    ```bash
+    docker-compose up -d
+    ```
+
+5.  **Run database migrations and seed data:**
+
+    Apply the database schema and populate it with initial data:
+
+    ```bash
+    pnpm migrate
+    ```
+
+6.  **Start the development server:**
+
+    ```bash
+    pnpm dev
+    ```
+
+    The application should now be running at [http://localhost:3000](http://localhost:3000).
+
+## Project Structure
+
+The project follows the standard Next.js App Router structure:
+
+- `app/`: Contains all the routes, UI components, and logic for the application.
+- `components/`: Contains shared UI components used across the application.
+- `lib/`: Contains shared functions, utilities, and configurations.
+- `prisma/`: Contains the database schema, migrations, and seed script.
+- `public/`: Contains static assets like images and fonts.
+
+## Available Scripts
+
+- `pnpm dev`: Starts the development server with Turbopack.
+- `pnpm build`: Builds the application for production.
+- `pnpm start`: Starts the production server.
+- `pnpm lint`: Lints the codebase using ESLint.
+- `pnpm generate`: Generates the Prisma client.
+- `pnpm migrate`: Runs database migrations.
+
+## Deployment
+
+The easiest way to deploy this application is to use the [Vercel Platform](https://vercel.com/new).
+
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
