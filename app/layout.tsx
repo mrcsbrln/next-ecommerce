@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
 import { SessionProvider } from "next-auth/react";
 import { Suspense } from "react";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,15 +51,37 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <header>
-                <Navbar />
-              </header>
-              {children}
-              <footer className="border-t border-dashed py-6">
-                <div className="container mx-auto text-sm text-muted-foreground text-center">
-                  © {new Date().getFullYear()} All rigths reserved.
-                </div>
-              </footer>
+              <div className="flex min-h-screen flex-col">
+                <header>
+                  <Navbar />
+                </header>
+                <main className="flex-1">{children}</main>
+                <footer className="border-t border-dashed py-8">
+                  <div className="container mx-auto px-4 flex flex-col items-center justify-between gap-4 md:flex-row text-sm text-muted-foreground">
+                    {/* Copyright Bereich */}
+                    <p>
+                      © {new Date().getFullYear()} E-Commerce Store. All rights
+                      reserved.
+                    </p>
+
+                    {/* Rechtliche Links */}
+                    <nav className="flex gap-6">
+                      <Link
+                        href="/imprint"
+                        className="transition-colors hover:text-foreground hover:underline underline-offset-4"
+                      >
+                        Imprint
+                      </Link>
+                      <Link
+                        href="/privacy"
+                        className="transition-colors hover:text-foreground hover:underline underline-offset-4"
+                      >
+                        Privacy Policy
+                      </Link>
+                    </nav>
+                  </div>
+                </footer>
+              </div>
             </ThemeProvider>
           </SessionProvider>
         </body>
